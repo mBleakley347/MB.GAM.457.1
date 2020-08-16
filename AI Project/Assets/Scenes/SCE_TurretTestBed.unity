@@ -183,7 +183,7 @@ MonoBehaviour:
   renderer: {fileID: 0}
   fireRate: 0
   enemiesInRange: []
-  lostDelay: 10
+  lostDelay: 2
 --- !u!23 &691881581
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -482,7 +482,7 @@ MonoBehaviour:
   renderer: {fileID: 0}
   fireRate: 0
   enemiesInRange: []
-  lostDelay: 10
+  lostDelay: 2
 --- !u!23 &1288771816
 MeshRenderer:
   m_ObjectHideFlags: 0
