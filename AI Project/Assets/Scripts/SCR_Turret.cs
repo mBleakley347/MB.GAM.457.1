@@ -44,6 +44,9 @@ public class SCR_Turret : MonoBehaviour
     }
 
     public List<GameObject> enemiesInRange;
+    public GameObject target;
+
+    public float fov;
 
     public float lostDelay = 10;
     private float lostTime;
@@ -78,9 +81,7 @@ public class SCR_Turret : MonoBehaviour
     }
 
     /// <summary>
-    /// check field of view for player
-    /// calculate if player is in front of the turrt
-    /// if player can be seen change to attack
+    /// check if their are any target if so call Fov check
     /// </summary>
     public void Search()
     {
@@ -88,9 +89,40 @@ public class SCR_Turret : MonoBehaviour
         {
             newState = states.lost;
             lostTime = lostDelay;
+            return;
+        }
+        for (int i = 0; i < enemiesInRange.Count; i++)
+        {
+            
+            if (CheckFOV(enemiesInRange[i]))
+            {
+                target = enemiesInRange[i];
+                newState = states.attack;
+                return;
+            }
         }
     }
 
+    /// <summary>
+    /// check FOV to see if target is infront of the turret
+    /// </summary>
+    public bool CheckFOV(GameObject target)
+    {
+        if (!enemiesInRange.Contains(target))
+        {
+            return false;
+        }
+        //calculate direction and rotation from turrets forward face
+        Vector3 targetDir = target.transform.position - transform.position;
+        if (Vector3.Angle(targetDir, transform.forward) < fov)
+        {
+            return true;
+        }
+        return false;
+    }
+    /// <summary>
+    /// times down a lost search until the turret becomes inactive again
+    /// </summary>
     public void Lost()
     {
         lostTime -= Time.deltaTime;
@@ -104,15 +136,26 @@ public class SCR_Turret : MonoBehaviour
     /// attack player
     /// start to fire at player intermittenly
     /// </summary>
-    
     public void Attack()
     {
-        if (!shooting)
+        if (CheckFOV(target))
         {
-            shooting = true;
-            StartCoroutine(Shoot());
+            if (!shooting)
+            {
+                shooting = true;
+                StartCoroutine(Shoot());
+            }
         }
+        else
+        {
+            newState = states.search;
+        }
+        
     }
+
+    /// <summary>
+    /// meant to instansiate a stream of bullets over a few seconds
+    /// </summary>
     IEnumerator Shoot()
     {
         new WaitForSeconds(fireRate * 3);

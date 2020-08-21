@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// redundant with current method
+/// </summary>
 public class SCR_MeleeAI : MonoBehaviour
 {
     public SCR_SquadManager.Type myType;

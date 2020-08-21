@@ -13,6 +13,10 @@ public class SCR_DebugTests : MonoBehaviour
     {
         if (Input.GetKeyDown(binding)) DealDamage();
     }
+
+    /// <summary>
+    /// debug method of dealing damage for testing
+    /// </summary>
     public void DealDamage()
     {
         target.ChangeHealth(-amount);

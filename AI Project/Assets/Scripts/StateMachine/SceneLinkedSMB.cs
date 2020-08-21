@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
+/// <summary>
+/// an extension to allow the states to reference their specific ai instance
+/// 
+/// sourced from : https://forum.unity.com/threads/extending-statemachinebehaviours.488314/
+/// </summary>
 public class SceneLinkedSMB<TMonoBehaviour> : StateMachineBehaviour
     where TMonoBehaviour : MonoBehaviour
 {

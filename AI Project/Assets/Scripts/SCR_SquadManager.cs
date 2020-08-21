@@ -32,10 +32,12 @@ public class SCR_SquadManager : MonoBehaviour
     {
         
     }
-
+    /// <summary>
+    /// calculate the role the ai should play
+    /// </summary>
     public void CalculateSquadRoles(SCR_AI ai)
     {
-
+        // only ai with health above 50 get to be melee
         if (ai.health > 50)
         {
             if (melee.Count <= block.Count)
@@ -54,10 +56,14 @@ public class SCR_SquadManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// removes specific ai from the squads roster and checks if they should be replaced 
+    /// </summary>
     public void RemoveAI(SCR_AI ai)
     {
         switch (ai.myType)
         {
+            // if a melee is removed try to replace it with another ai
             case Type.Melee:
                 melee.Remove(ai);
                 if (block.Count >= 1)
@@ -82,17 +88,27 @@ public class SCR_SquadManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// check if the ai need to be swapped out to a different roles
+    /// </summary>
     public void Swap(SCR_AI ai)
     {
         if (melee.Contains(ai) && ai.health <= 50)
         {
+            //removes ai from its current list and replaces them
             RemoveAI(ai);
+            //recalculates the role of this ai
             CalculateSquadRoles(ai);
         }
     }
+
+    /// <summary>
+    /// assigne the specific role to the ai
+    /// </summary>
     public void AssignRole(SCR_AI ai, Type role)
     {
         ai.myType = role;
+        // put the ai into the list of their role and set their engagement range
         switch (role)
         {
             case Type.Melee:
